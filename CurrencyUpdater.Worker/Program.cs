@@ -1,7 +1,10 @@
+using System.Text;
 using Common.Database;
 using CurrencyUpdater.Worker;
 using CurrencyUpdater.Worker.Commands;
 using Microsoft.EntityFrameworkCore;
+
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 var builder = Host.CreateApplicationBuilder(args);
 
