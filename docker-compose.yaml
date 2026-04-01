@@ -10,5 +10,15 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  migration-runner:
+    build:
+      context: .
+      dockerfile: Migration.Runner/Dockerfile
+    environment:
+      CONNECTION_STRING: "Host=postgres;Port=5432;Database=currency_db;Username=postgres;Password=postgres"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres_data:
