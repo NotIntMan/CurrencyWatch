@@ -1,2 +1,6 @@
 <Solution>
+  <Folder Name="/Related Files/">
+    <File Path="docker-compose.yaml" />
+    <File Path="README.md" />
+  </Folder>
 </Solution>
