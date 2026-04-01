@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Related Files/">
+    <File Path="docker-compose.yaml" />
+    <File Path="README.md" />
+    <File Path=".dockerignore" />
+  </Folder>
+  <Project Path="Common.Database/Common.Database.csproj" />
+  <Project Path="Common.Domain/Common.Domain.csproj" />
+  <Project Path="Migration.Runner/Migration.Runner.csproj" />
+</Solution>
