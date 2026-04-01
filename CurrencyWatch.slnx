@@ -3,5 +3,6 @@
     <File Path="docker-compose.yaml" />
     <File Path="README.md" />
   </Folder>
+  <Project Path="Common.Database/Common.Database.csproj" />
   <Project Path="Common.Domain/Common.Domain.csproj" />
 </Solution>
