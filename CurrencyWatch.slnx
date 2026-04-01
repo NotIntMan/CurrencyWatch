@@ -6,6 +6,7 @@
   </Folder>
   <Project Path="Common.Database/Common.Database.csproj" />
   <Project Path="Common.Domain/Common.Domain.csproj" />
+  <Project Path="Common.Infrastructure/Common.Infrastructure.csproj" />
   <Project Path="CurrencyUpdater.Worker/CurrencyUpdater.Worker.csproj" />
   <Project Path="Migration.Runner/Migration.Runner.csproj" />
 </Solution>
