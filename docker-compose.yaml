@@ -1,3 +1,6 @@
+x-common-env: &common-env
+  CONNECTION_STRING: "Host=postgres;Port=5432;Database=currency_db;Username=postgres;Password=postgres"
+
 services:
   postgres:
     image: postgres:16
@@ -20,10 +23,21 @@ services:
       context: .
       dockerfile: Migration.Runner/Dockerfile
     environment:
-      CONNECTION_STRING: "Host=postgres;Port=5432;Database=currency_db;Username=postgres;Password=postgres"
+      <<: *common-env
     depends_on:
       postgres:
         condition: service_healthy
+
+  currency-updater:
+    build:
+      context: .
+      dockerfile: CurrencyUpdater.Worker/Dockerfile
+    environment:
+      <<: *common-env
+    depends_on:
+      migration-runner:
+        condition: service_completed_successfully
+    restart: always
 
 volumes:
   postgres_data:
