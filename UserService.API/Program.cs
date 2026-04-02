@@ -3,6 +3,7 @@ using Common.Infrastructure;
 using Common.Infrastructure.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using UserService.API.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +33,41 @@ builder.Services.AddMediatR(
     cfg => cfg.RegisterServicesFromAssemblyContaining<UserService.Application.Commands.Login.LoginCommand>()
 );
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddSwaggerGen(options =>
+    {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer",
+                    },
+                },
+                []
+            },
+        });
+    });
+}
+
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
