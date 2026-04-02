@@ -3,6 +3,7 @@
     <File Path="docker-compose.yaml" />
     <File Path="README.md" />
     <File Path=".dockerignore" />
+    <File Path=".editorconfig" />
   </Folder>
   <Project Path="Common.Database/Common.Database.csproj" />
   <Project Path="Common.Domain/Common.Domain.csproj" />
