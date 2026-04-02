@@ -3,6 +3,7 @@ using Common.Infrastructure;
 using Common.Infrastructure.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using UserService.API.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,12 +18,14 @@ builder.Services.AddSingleton<PasswordHasher>();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddSingleton<JwtService>();
 
+builder.Services.AddScoped<BlacklistJwtBearerEvents>();
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!;
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = jwtOptions.ToValidationParameters();
+        options.EventsType = typeof(BlacklistJwtBearerEvents);
     });
 
 builder.Services.AddMediatR(
