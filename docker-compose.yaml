@@ -39,5 +39,21 @@ services:
         condition: service_completed_successfully
     restart: always
 
+  user-service:
+    build:
+      context: .
+      dockerfile: UserService.API/Dockerfile
+    environment:
+      ConnectionStrings__Default: "Host=postgres;Port=5432;Database=currency_db;Username=postgres;Password=postgres"
+      Jwt__SecretKey: "Was vernuenftig ist, das ist wirklich; und was wirklich ist, das ist vernuenftig"
+      Jwt__Issuer: "CurrencyWatch"
+      Jwt__Audience: "CurrencyWatch"
+      Jwt__ExpirationMinutes: "15"
+    ports:
+      - "5001:8080"
+    depends_on:
+      migration-runner:
+        condition: service_completed_successfully
+
 volumes:
   postgres_data:
