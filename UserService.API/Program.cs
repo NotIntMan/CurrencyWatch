@@ -1,6 +1,6 @@
 using Common.API.Extensions;
 using Common.Database;
-using Common.Infrastructure;
+using UserService.Application.Services;
 using Common.Infrastructure.Jwt;
 using Microsoft.EntityFrameworkCore;
 using UserService.API.Exceptions;

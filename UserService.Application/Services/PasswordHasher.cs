@@ -1,4 +1,4 @@
-﻿namespace Common.Infrastructure;
+﻿namespace UserService.Application.Services;
 
 public class PasswordHasher
 {

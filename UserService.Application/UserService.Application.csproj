@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
     <PackageReference Include="MediatR" Version="13.1.0" />
   </ItemGroup>
 
@@ -15,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common.Infrastructure\Common.Infrastructure.csproj"/>
-    <ProjectReference Include="..\Common.Database\Common.Database.csproj"/>
+    <ProjectReference Include="..\Common.Infrastructure\Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\Common.Database\Common.Database.csproj" />
   </ItemGroup>
 
 </Project>

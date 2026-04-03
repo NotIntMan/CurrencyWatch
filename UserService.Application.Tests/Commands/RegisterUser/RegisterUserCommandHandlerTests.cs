@@ -1,6 +1,6 @@
 ﻿using Common.Database;
 using Common.Domain.Entities;
-using Common.Infrastructure;
+using UserService.Application.Services;
 using Microsoft.EntityFrameworkCore;
 using UserService.Application.Commands.RegisterUser;
 using UserService.Application.DTOs;
