@@ -28,6 +28,7 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.MapInboundClaims = false;
         options.TokenValidationParameters = jwtOptions.ToValidationParameters();
         options.EventsType = typeof(BlacklistJwtBearerEvents);
     });
