@@ -1,32 +1,13 @@
+using Common.API.Exceptions;
 using FinanceService.Application.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceService.API.Exceptions;
 
-public class AppExceptionHandler : IExceptionHandler
+public class AppExceptionHandler : AppExceptionHandlerBase
 {
-    public async ValueTask<bool> TryHandleAsync(
-        HttpContext httpContext,
-        Exception exception,
-        CancellationToken cancellationToken)
+    protected override (int StatusCode, string Title) MapException(Exception exception) => exception switch
     {
-        var (statusCode, title) = exception switch
-        {
-            CurrencyNotFoundException => (StatusCodes.Status404NotFound, "Not Found"),
-            _ => (StatusCodes.Status500InternalServerError, "Internal Server Error"),
-        };
-
-        var problemDetails = new ProblemDetails
-        {
-            Status = statusCode,
-            Title = title,
-            Detail = exception.Message,
-        };
-
-        httpContext.Response.StatusCode = statusCode;
-        await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
-
-        return true;
-    }
+        CurrencyNotFoundException => (StatusCodes.Status404NotFound, "Not Found"),
+        _ => (StatusCodes.Status500InternalServerError, "Internal Server Error"),
+    };
 }
