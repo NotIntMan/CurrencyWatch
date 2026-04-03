@@ -24,7 +24,9 @@ public class CbrXmlParser
         {
             var currency = ParseValute(valute);
             if (currency is not null)
+            {
                 result.Add(currency);
+            }
         }
 
         return result;

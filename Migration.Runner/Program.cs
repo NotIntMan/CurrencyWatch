@@ -1,5 +1,5 @@
-using Migration.Runner;
 using Microsoft.EntityFrameworkCore;
+using Migration.Runner;
 
 var factory = new AppDbContextFactory();
 using var context = factory.CreateDbContext(args);
