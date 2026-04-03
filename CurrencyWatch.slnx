@@ -9,8 +9,8 @@
   <Project Path="Common.API/Common.API.csproj" />
   <Project Path="Common.Database/Common.Database.csproj" />
   <Project Path="Common.Domain/Common.Domain.csproj" />
-  <Project Path="Common.Infrastructure.Tests/Common.Infrastructure.Tests.csproj" />
   <Project Path="Common.Infrastructure/Common.Infrastructure.csproj" />
+  <Project Path="CurrencyUpdater.Worker.Tests/CurrencyUpdater.Worker.Tests.csproj" />
   <Project Path="CurrencyUpdater.Worker/CurrencyUpdater.Worker.csproj" />
   <Project Path="FinanceService.API/FinanceService.API.csproj" />
   <Project Path="FinanceService.Application.Tests/FinanceService.Application.Tests.csproj" />

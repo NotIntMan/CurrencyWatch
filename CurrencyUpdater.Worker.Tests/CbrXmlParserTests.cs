@@ -4,7 +4,9 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Testing;
 
-namespace Common.Infrastructure.Tests;
+using CurrencyUpdater.Worker.Services;
+
+namespace CurrencyUpdater.Worker.Tests;
 
 public class CbrXmlParserTests
 {
