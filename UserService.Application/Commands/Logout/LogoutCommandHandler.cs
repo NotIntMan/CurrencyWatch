@@ -1,6 +1,5 @@
 ﻿using Common.Database;
 using Common.Domain.Entities;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Application.Commands.Logout;

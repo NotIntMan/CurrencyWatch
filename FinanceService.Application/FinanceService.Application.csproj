@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="MediatR" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Common.Database\Common.Database.csproj" />
   </ItemGroup>
 
