@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UserService.Application\UserService.Application.csproj" />
+    <ProjectReference Include="..\Common.API\Common.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

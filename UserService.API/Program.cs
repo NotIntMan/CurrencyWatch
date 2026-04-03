@@ -1,10 +1,9 @@
+using Common.API.Extensions;
 using Common.Database;
 using Common.Infrastructure;
 using Common.Infrastructure.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using UserService.API.Auth;
 using UserService.API.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,20 +17,9 @@ builder.Services.AddDbContext<AppDbContext>(
 );
 
 builder.Services.AddSingleton<PasswordHasher>();
-
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddSingleton<JwtService>();
 
-builder.Services.AddScoped<BlacklistJwtBearerEvents>();
-var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!;
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.MapInboundClaims = false;
-        options.TokenValidationParameters = jwtOptions.ToValidationParameters();
-        options.EventsType = typeof(BlacklistJwtBearerEvents);
-    });
+builder.Services.AddJwtBearerWithBlacklist(builder.Configuration);
 
 builder.Services.AddMediatR(
     cfg => cfg.RegisterServicesFromAssemblyContaining<UserService.Application.Commands.Login.LoginCommand>()

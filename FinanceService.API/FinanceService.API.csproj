@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FinanceService.Application\FinanceService.Application.csproj" />
     <ProjectReference Include="..\Common.Infrastructure\Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\Common.API\Common.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,9 +1,7 @@
+using Common.API.Extensions;
 using Common.Database;
-using Common.Infrastructure.Jwt;
-using FinanceService.API.Auth;
 using FinanceService.API.Exceptions;
 using FinanceService.Application.Queries.GetAllCurrencies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -17,18 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
 );
 
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
-
-builder.Services.AddScoped<BlacklistJwtBearerEvents>();
-var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!;
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.MapInboundClaims = false;
-        options.TokenValidationParameters = jwtOptions.ToValidationParameters();
-        options.EventsType = typeof(BlacklistJwtBearerEvents);
-    });
+builder.Services.AddJwtBearerWithBlacklist(builder.Configuration);
 
 builder.Services.AddMediatR(
     cfg => cfg.RegisterServicesFromAssemblyContaining<GetAllCurrenciesQuery>()

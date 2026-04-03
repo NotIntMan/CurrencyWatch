@@ -1,11 +1,13 @@
 using System.Security.Claims;
 using Common.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace FinanceService.API.Auth;
+namespace Common.API.Auth;
 
 public class BlacklistJwtBearerEvents : JwtBearerEvents
 {
