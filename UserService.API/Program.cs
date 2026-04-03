@@ -1,10 +1,8 @@
+using Common.API.Extensions;
 using Common.Database;
-using Common.Infrastructure;
+using UserService.Application.Services;
 using Common.Infrastructure.Jwt;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using UserService.API.Auth;
 using UserService.API.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,20 +16,9 @@ builder.Services.AddDbContext<AppDbContext>(
 );
 
 builder.Services.AddSingleton<PasswordHasher>();
-
-builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddSingleton<JwtService>();
 
-builder.Services.AddScoped<BlacklistJwtBearerEvents>();
-var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!;
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.MapInboundClaims = false;
-        options.TokenValidationParameters = jwtOptions.ToValidationParameters();
-        options.EventsType = typeof(BlacklistJwtBearerEvents);
-    });
+builder.Services.AddJwtBearerWithBlacklist(builder.Configuration);
 
 builder.Services.AddMediatR(
     cfg => cfg.RegisterServicesFromAssemblyContaining<UserService.Application.Commands.Login.LoginCommand>()
@@ -39,30 +26,7 @@ builder.Services.AddMediatR(
 
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddSwaggerGen(options =>
-    {
-        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        {
-            Name = "Authorization",
-            Type = SecuritySchemeType.Http,
-            Scheme = "bearer",
-            BearerFormat = "JWT",
-        });
-        options.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer",
-                    },
-                },
-                []
-            },
-        });
-    });
+    builder.Services.AddSwaggerWithBearer();
 }
 
 var app = builder.Build();

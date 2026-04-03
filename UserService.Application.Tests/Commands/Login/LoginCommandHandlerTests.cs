@@ -1,6 +1,6 @@
 ﻿using Common.Database;
 using Common.Domain.Entities;
-using Common.Infrastructure;
+using UserService.Application.Services;
 using Common.Infrastructure.Jwt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
