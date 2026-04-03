@@ -1,5 +1,4 @@
-﻿using MediatR;
-using UserService.Application.DTOs;
+﻿using UserService.Application.DTOs;
 
 namespace UserService.Application.Commands.RegisterUser;
 

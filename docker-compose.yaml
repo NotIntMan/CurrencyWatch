@@ -1,5 +1,12 @@
-x-common-env: &common-env
+x-worker-env: &worker-env
   CONNECTION_STRING: "Host=postgres;Port=5432;Database=currency_db;Username=postgres;Password=postgres"
+
+x-api-env: &api-env
+  ConnectionStrings__Default: "Host=postgres;Port=5432;Database=currency_db;Username=postgres;Password=postgres"
+  Jwt__SecretKey: "Was vernuenftig ist, das ist wirklich; und was wirklich ist, das ist vernuenftig"
+  Jwt__Issuer: "CurrencyWatch"
+  Jwt__Audience: "CurrencyWatch"
+  Jwt__ExpirationMinutes: "15"
 
 services:
   postgres:
@@ -23,7 +30,7 @@ services:
       context: .
       dockerfile: Migration.Runner/Dockerfile
     environment:
-      <<: *common-env
+      <<: *worker-env
     depends_on:
       postgres:
         condition: service_healthy
@@ -33,7 +40,7 @@ services:
       context: .
       dockerfile: CurrencyUpdater.Worker/Dockerfile
     environment:
-      <<: *common-env
+      <<: *worker-env
     depends_on:
       migration-runner:
         condition: service_completed_successfully
@@ -44,13 +51,21 @@ services:
       context: .
       dockerfile: UserService.API/Dockerfile
     environment:
-      ConnectionStrings__Default: "Host=postgres;Port=5432;Database=currency_db;Username=postgres;Password=postgres"
-      Jwt__SecretKey: "Was vernuenftig ist, das ist wirklich; und was wirklich ist, das ist vernuenftig"
-      Jwt__Issuer: "CurrencyWatch"
-      Jwt__Audience: "CurrencyWatch"
-      Jwt__ExpirationMinutes: "15"
+      <<: *api-env
     ports:
       - "5001:8080"
+    depends_on:
+      migration-runner:
+        condition: service_completed_successfully
+
+  finance-service:
+    build:
+      context: .
+      dockerfile: FinanceService.API/Dockerfile
+    environment:
+      <<: *api-env
+    ports:
+      - "5002:8080"
     depends_on:
       migration-runner:
         condition: service_completed_successfully

@@ -2,7 +2,6 @@
 using Common.Domain.Entities;
 using Common.Infrastructure;
 using Common.Infrastructure.Jwt;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using UserService.Application.DTOs;
 using UserService.Application.Exceptions;
