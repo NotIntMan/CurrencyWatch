@@ -5,6 +5,7 @@
     <File Path=".dockerignore" />
     <File Path=".editorconfig" />
   </Folder>
+  <Project Path="ApiGateway/ApiGateway.csproj" />
   <Project Path="Common.Database/Common.Database.csproj" />
   <Project Path="Common.Domain/Common.Domain.csproj" />
   <Project Path="Common.Infrastructure.Tests/Common.Infrastructure.Tests.csproj" />
