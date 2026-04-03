@@ -10,6 +10,8 @@
   <Project Path="Common.Infrastructure.Tests/Common.Infrastructure.Tests.csproj" />
   <Project Path="Common.Infrastructure/Common.Infrastructure.csproj" />
   <Project Path="CurrencyUpdater.Worker/CurrencyUpdater.Worker.csproj" />
+  <Project Path="FinanceService.Application.Tests/FinanceService.Application.Tests.csproj" />
+  <Project Path="FinanceService.Application/FinanceService.Application.csproj" />
   <Project Path="Migration.Runner/Migration.Runner.csproj" />
   <Project Path="UserService.API/UserService.API.csproj" />
   <Project Path="UserService.Application.Tests/UserService.Application.Tests.csproj" />
