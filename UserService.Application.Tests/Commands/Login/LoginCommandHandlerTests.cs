@@ -5,6 +5,7 @@ using Common.Infrastructure.Jwt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using UserService.Application.Commands.Login;
+using UserService.Application.Exceptions;
 using UserService.Application.Tests.TestHelpers;
 
 namespace UserService.Application.Tests.Commands.Login;
@@ -49,7 +50,7 @@ public sealed class LoginCommandHandlerTests : IDisposable
 
         var act = () => _sut.Handle(new LoginCommand("alice", "wrong"), CancellationToken.None);
 
-        await act.Should().ThrowAsync<UnauthorizedAccessException>()
+        await act.Should().ThrowAsync<InvalidCredentialsException>()
             .WithMessage("*Invalid name or password*");
         (await _db.RefreshTokens.CountAsync()).Should().Be(0);
     }
@@ -59,7 +60,7 @@ public sealed class LoginCommandHandlerTests : IDisposable
     {
         var act = () => _sut.Handle(new LoginCommand("nobody", "pass"), CancellationToken.None);
 
-        await act.Should().ThrowAsync<UnauthorizedAccessException>()
+        await act.Should().ThrowAsync<InvalidCredentialsException>()
             .WithMessage("*Invalid name or password*");
         (await _db.RefreshTokens.CountAsync()).Should().Be(0);
     }

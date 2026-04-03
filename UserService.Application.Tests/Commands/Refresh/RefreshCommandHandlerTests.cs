@@ -4,6 +4,7 @@ using Common.Infrastructure.Jwt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using UserService.Application.Commands.Refresh;
+using UserService.Application.Exceptions;
 using UserService.Application.Tests.TestHelpers;
 
 namespace UserService.Application.Tests.Commands.Refresh;
@@ -54,7 +55,7 @@ public sealed class RefreshCommandHandlerTests : IDisposable
     {
         var act = () => _sut.Handle(new RefreshCommand("nonexistent"), CancellationToken.None);
 
-        await act.Should().ThrowAsync<UnauthorizedAccessException>()
+        await act.Should().ThrowAsync<InvalidCredentialsException>()
             .WithMessage("*Invalid or expired refresh token*");
     }
 
@@ -75,7 +76,7 @@ public sealed class RefreshCommandHandlerTests : IDisposable
 
         var act = () => _sut.Handle(new RefreshCommand("expired-refresh"), CancellationToken.None);
 
-        await act.Should().ThrowAsync<UnauthorizedAccessException>()
+        await act.Should().ThrowAsync<InvalidCredentialsException>()
             .WithMessage("*Invalid or expired refresh token*");
     }
 }

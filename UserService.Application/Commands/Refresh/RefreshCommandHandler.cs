@@ -4,6 +4,7 @@ using Common.Infrastructure.Jwt;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using UserService.Application.DTOs;
+using UserService.Application.Exceptions;
 
 namespace UserService.Application.Commands.Refresh;
 
@@ -25,7 +26,7 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, LoginResult
 
         if (oldToken is null || oldToken.ExpiresAt < DateTime.UtcNow)
         {
-            throw new UnauthorizedAccessException("Invalid or expired refresh token.");
+            throw new InvalidCredentialsException("Invalid or expired refresh token.");
         }
 
         var user = await _db.Users.FirstAsync(u => u.Id == oldToken.UserId, ct);

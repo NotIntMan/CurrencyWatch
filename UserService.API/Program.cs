@@ -5,10 +5,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using UserService.API.Auth;
+using UserService.API.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<AppExceptionHandler>();
 
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
@@ -69,6 +72,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

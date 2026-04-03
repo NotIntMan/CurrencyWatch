@@ -5,6 +5,7 @@ using Common.Infrastructure.Jwt;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using UserService.Application.DTOs;
+using UserService.Application.Exceptions;
 
 namespace UserService.Application.Commands.Login;
 
@@ -26,7 +27,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResultDto>
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Name == request.Name, ct);
         if (user is null || !_passwordHasher.Verify(request.Password, user.PasswordHash))
         {
-            throw new UnauthorizedAccessException("Invalid name or password.");
+            throw new InvalidCredentialsException("Invalid name or password.");
         }
 
         var accessToken = _jwtService.GenerateToken(user);

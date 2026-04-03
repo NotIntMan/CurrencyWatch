@@ -4,6 +4,7 @@ using Common.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using UserService.Application.Commands.RegisterUser;
 using UserService.Application.DTOs;
+using UserService.Application.Exceptions;
 using UserService.Application.Tests.TestHelpers;
 
 namespace UserService.Application.Tests.Commands.RegisterUser;
@@ -40,8 +41,7 @@ public sealed class RegisterUserCommandHandlerTests : IDisposable
 
         var act = () => _sut.Handle(new RegisterUserCommand("alice", "pass123"), CancellationToken.None);
 
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage("*already exists*");
+        await act.Should().ThrowAsync<UserAlreadyExistsException>();
 
         (await _db.Users.CountAsync(u => u.Name == "alice")).Should().Be(1);
     }

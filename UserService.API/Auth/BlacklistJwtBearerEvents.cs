@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Common.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
 
@@ -8,6 +9,33 @@ namespace UserService.API.Auth;
 
 public class BlacklistJwtBearerEvents : JwtBearerEvents
 {
+    public override async Task Challenge(JwtBearerChallengeContext context)
+    {
+        context.HandleResponse();
+
+        var problemDetails = new ProblemDetails
+        {
+            Status = StatusCodes.Status401Unauthorized,
+            Title = "Unauthorized",
+            Detail = context.AuthenticateFailure?.Message,
+        };
+
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        await context.Response.WriteAsJsonAsync(problemDetails);
+    }
+
+    public override async Task Forbidden(ForbiddenContext context)
+    {
+        var problemDetails = new ProblemDetails
+        {
+            Status = StatusCodes.Status403Forbidden,
+            Title = "Forbidden",
+        };
+
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        await context.Response.WriteAsJsonAsync(problemDetails);
+    }
+
     public override async Task TokenValidated(TokenValidatedContext context)
     {
         var jti = context.Principal?.FindFirstValue(JwtRegisteredClaimNames.Jti);
