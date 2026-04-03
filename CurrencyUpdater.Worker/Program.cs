@@ -1,6 +1,6 @@
 using System.Text;
 using Common.Database;
-using Common.Infrastructure;
+using CurrencyUpdater.Worker.Services;
 using CurrencyUpdater.Worker;
 using CurrencyUpdater.Worker.Commands;
 using Microsoft.EntityFrameworkCore;

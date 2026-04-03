@@ -1,7 +1,7 @@
 using System.Xml.Linq;
 using Common.Database;
 using Common.Domain.Entities;
-using Common.Infrastructure;
+using CurrencyUpdater.Worker.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace CurrencyUpdater.Worker.Commands;

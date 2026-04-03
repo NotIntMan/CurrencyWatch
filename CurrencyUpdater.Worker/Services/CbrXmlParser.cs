@@ -1,9 +1,8 @@
 using System.Globalization;
 using System.Xml.Linq;
 using Common.Domain.Entities;
-using Microsoft.Extensions.Logging;
 
-namespace Common.Infrastructure;
+namespace CurrencyUpdater.Worker.Services;
 
 public class CbrXmlParser
 {
