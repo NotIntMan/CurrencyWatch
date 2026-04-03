@@ -3,6 +3,7 @@ using Common.Infrastructure.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace Common.API.Extensions;
 
@@ -24,6 +25,36 @@ public static class ServiceCollectionExtensions
                 options.TokenValidationParameters = jwtOptions.ToValidationParameters();
                 options.EventsType = typeof(BlacklistJwtBearerEvents);
             });
+
+        return services;
+    }
+
+    public static IServiceCollection AddSwaggerWithBearer(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer",
+                        },
+                    },
+                    []
+                },
+            });
+        });
 
         return services;
     }

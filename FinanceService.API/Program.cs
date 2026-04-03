@@ -3,7 +3,6 @@ using Common.Database;
 using FinanceService.API.Exceptions;
 using FinanceService.Application.Queries.GetAllCurrencies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,30 +22,7 @@ builder.Services.AddMediatR(
 
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddSwaggerGen(options =>
-    {
-        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        {
-            Name = "Authorization",
-            Type = SecuritySchemeType.Http,
-            Scheme = "bearer",
-            BearerFormat = "JWT",
-        });
-        options.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer",
-                    },
-                },
-                []
-            },
-        });
-    });
+    builder.Services.AddSwaggerWithBearer();
 }
 
 var app = builder.Build();
